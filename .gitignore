@@ -1,0 +1,23 @@
+node_modules/
+dist/
+.wrangler/
+.superpowers/
+.worktrees/
+.env
+.env.*
+!.env.example
+.dev.vars*
+supabase/.temp/
+supabase/.branches/
+test-results/
+playwright-report/
+*.log
+
+# Dados reais nunca entram no repositório
+*.xlsx
+*.xls
+*.csv
+*.ods
+*.sql.gz
+*.dump
+backups/

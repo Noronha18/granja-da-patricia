@@ -1,0 +1,3 @@
+#!/bin/sh
+# Supabase type generation currently shells out to docker; use this project's Podman runtime.
+exec podman "$@"

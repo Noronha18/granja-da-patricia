@@ -1,0 +1,31 @@
+begin;
+select no_plan();
+select has_function('public','get_route_distance_context',array['uuid','integer','boolean']);
+insert into auth.users(id)values('a1000000-0000-4000-8000-000000000001'),('a1000000-0000-4000-8000-000000000002');
+insert into public.profiles values('a1000000-0000-4000-8000-000000000001','owner'),('a1000000-0000-4000-8000-000000000002','driver');
+insert into public.route_runs(id,template_id,service_date)select 'a2000000-0000-4000-8000-000000000001',id,'2090-01-02' from public.route_templates limit 1;
+insert into public.route_stops(route_id,kind,position,name,address)values
+('a2000000-0000-4000-8000-000000000001','departure',1,'Fictício A','Rua A, 10, Recife'),
+('a2000000-0000-4000-8000-000000000001','arrival',2,'Fictício B','Rua B, 20, Recife');
+select set_config('request.jwt.claim.sub','a1000000-0000-4000-8000-000000000002',true);
+set local role authenticated;
+select throws_ok($$select public.get_route_distance_context('a2000000-0000-4000-8000-000000000001',1,false)$$,'42501','FORBIDDEN','driver denied');
+select set_config('request.jwt.claim.sub','a1000000-0000-4000-8000-000000000001',true);
+select is(jsonb_array_length(public.get_route_distance_context('a2000000-0000-4000-8000-000000000001',1,false)->'addresses'),2,'every stop included');
+select throws_ok($$select public.get_route_distance_context('a2000000-0000-4000-8000-000000000001',2,false)$$,'PT409','VERSION_CONFLICT','stale route denied');
+select lives_ok($$select public.get_route_distance_context('a2000000-0000-4000-8000-000000000001',1,true)$$,'first reservation');
+select throws_ok($$select public.get_route_distance_context('a2000000-0000-4000-8000-000000000001',1,true)$$,'PT429','MAPS_LIMIT','shared cooldown');
+reset role;
+update private.maps_usage set requests=20,last_at='epoch';
+set local role authenticated;
+select throws_ok($$select public.get_route_distance_context('a2000000-0000-4000-8000-000000000001',1,true)$$,'PT429','MAPS_LIMIT','daily bound');
+reset role;
+update public.route_stops set address=null where position=2 and route_id='a2000000-0000-4000-8000-000000000001';
+set local role authenticated;
+select throws_ok($$select public.get_route_distance_context('a2000000-0000-4000-8000-000000000001',1,false)$$,'22023','INCOMPLETE_ROUTE','never skip missing destination');
+reset role;
+update public.route_runs set status='in_progress' where id='a2000000-0000-4000-8000-000000000001';
+set local role authenticated;
+select throws_ok($$select public.get_route_distance_context('a2000000-0000-4000-8000-000000000001',1,false)$$,'PT409','ROUTE_LOCKED','cannot reconstruct prior estimate after start');
+select * from finish();
+rollback;

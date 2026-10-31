@@ -1,0 +1,37 @@
+.driver-page{max-width:720px;padding-top:0}
+.driver-page h1{margin:0 0 6px}
+.driver-page p{margin:8px 0}
+.driver-online{font-size:14px;color:var(--color-muted)}
+.driver-page form{display:grid;gap:16px;max-width:540px;margin-top:16px}
+.driver-page label{display:grid;gap:8px}
+.driver-page button,.driver-map{min-height:48px}
+.driver-page input{min-height:48px}
+.driver-page textarea{min-height:96px}
+.driver-page input,.driver-page textarea{font-variant-numeric:tabular-nums;caret-color:var(--color-primary)}
+.driver-tools{margin:8px 0}
+.driver-tools summary,.driver-preview summary{min-height:44px;padding:10px 0;cursor:pointer;text-decoration:underline;text-underline-offset:4px;font-size:14px}
+.driver-tools .week-toolbar{margin:12px 0}
+.driver-tools>p{font-size:14px;color:var(--color-muted)}
+.driver-page .driver-route-status{display:inline-flex;align-items:center;padding:4px 10px;min-height:30px;background:#e8efdf;border-radius:6px;font-weight:600;font-size:14px;margin:4px 0}
+.driver-stop{margin-top:16px}
+.driver-stop-context{padding:16px;border-radius:14px;background:var(--color-tint)}
+.driver-stop .driver-stop-position{font-size:14px;color:var(--color-muted);margin:0 0 12px}
+.driver-stop h2{font-size:26px;line-height:1.2;margin:0 0 12px;overflow-wrap:anywhere}
+.driver-stop-context>p:not(.driver-stop-position){font-size:15px;color:var(--color-muted);margin:8px 0}
+.driver-progress{font-size:14px;color:var(--color-muted)}
+.driver-items{padding:12px 0 12px 20px;margin:16px 0;border-block:1px solid #ccd7c3;font-size:17px}
+.driver-items li{margin:4px 0;overflow-wrap:anywhere}
+.driver-map{display:inline-flex;align-items:center;gap:10px;text-underline-offset:4px;margin:0;font-size:15px}
+.driver-map svg{width:20px;height:20px;flex-shrink:0}
+.driver-phone{display:inline-flex;align-items:center;min-height:44px;overflow-wrap:anywhere}
+.driver-actions,.driver-confirm{display:grid;gap:12px;margin-top:20px}
+.driver-actions button,.driver-confirm button{width:100%;min-height:52px}
+.driver-list{padding-left:24px}
+.driver-list li{margin:16px 0}
+.driver-list button{text-align:left;width:100%}
+.driver-list-toggle{margin-top:16px}
+.driver-preview{margin-top:16px}
+.driver-return{margin-top:40px;padding-top:24px;border-top:1px solid var(--color-line)}
+.driver-page :focus-visible{outline:3px solid var(--color-focus);outline-offset:4px}
+.driver-page ::selection{background:var(--color-selection);color:var(--color-ink)}
+@media(max-width:520px){.driver-page .week-toolbar{align-items:stretch;flex-direction:column}}

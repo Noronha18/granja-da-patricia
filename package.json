@@ -1,0 +1,36 @@
+{
+  "name": "granja-da-patricia",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "dev:local": "node scripts/dev-local.mjs",
+    "build": "tsc --noEmit && vite build",
+    "check": "npm run build",
+    "test": "npm run test:unit && npm run test:db && npm run test:admin && npm run test:storage && npm run test:e2e",
+    "test:db": "supabase test db && node scripts/test-order-concurrency.mjs && node scripts/test-stock-concurrency.mjs",
+    "test:e2e": "node scripts/e2e.mjs",
+    "db:types": "PATH=\"$PWD/scripts/bin:$PATH\" supabase gen types typescript --local > src/lib/database.types.ts",
+    "test:unit": "vitest run",
+    "test:storage": "vitest run --config vitest.storage.config.ts",
+    "test:admin": "node --test tests/admin.test.mjs",
+    "test:recovery": "vitest run --config vitest.recovery.config.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.0.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "^5.0.0",
+    "vite": "^7.0.0",
+    "vitest": "^5.0.5",
+    "wrangler": "^4.156.0"
+  }
+}
